@@ -41,12 +41,12 @@ deviceID = devices['devices'][0]['id']
 track = spotifyObject.current_user_playing_track()
 print(json.dumps(track, sort_keys=True, indent=4))
 print()
+#need to play something if error: TypeError: 'NoneType' object is not subscriptable
 artist = track['item']['artists'][0]['name']
 track = track['item']['name']
 
 if artist != "":
     print("Currently playing " + artist + " - " + track)
-
 
 
 
@@ -56,10 +56,12 @@ followers = user['followers']['total']
 while True:
     print()
     print(">>> Welcome to Spotipy! " + displayName + "!")
-    print(">>> You have " + str(followers) + " followers\n")
+    print(">>> You have " + str(followers) + " followers")
+    print()
     print("0 - Search for an artist")
     print("1 - Randomize a playlist's order")
-    print("2 - exit\n")
+    print("2 - exit")
+    print()
     choice = input("Your choice: ")
 
     #Search for the artist
@@ -119,12 +121,34 @@ while True:
 
 
     #Randomizer
+    z = 0
+
     if choice == "1":
         #api calls that we're gonna use:
         #current_user_playlists
         #goal: allow the user to choose a target playlist, populate the playlist's song URIs into an array
         #populate the array into a target playlist (the user is supposed to create a new one)
         #randomize the ordering of the songs
+
+        #Extract album data
+        playlistResults = spotifyObject.user_playlists(username)
+
+        for playlist in playlistResults['items']:
+            print(str(z) + ": " + playlist['name'])
+            playlistID.append(item['uri'])
+            z += 1
+
+
+        #Getting the user's choice for the playlist they want to copy and shuffle
+        playlistChoice = input("Enter the number of the playlist that would you like to copy and shuffle? ")
+        if playlistChoice == 'x':
+            break
+
+
+            trackSelectionList = []
+            trackSelectionList.append(trackURIS[int(songSelection)])
+            spotifyObject.start_playback(deviceID, None, trackSelectionList)
+            webbrowser.open(trackArt[int(songSelection)])
 
 
     #Exit program
