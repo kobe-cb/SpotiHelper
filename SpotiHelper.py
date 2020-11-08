@@ -30,49 +30,43 @@ except (AttributeError, JSONDecodeError):
 spotifyObject = spotipy.Spotify(auth=token)
 
 user = spotifyObject.current_user()
-#print(json.dumps(user, sort_keys=True, indent=4))
 
 #Get current device
 devices = spotifyObject.devices()
-print(json.dumps(devices, sort_keys=True, indent=4))
 deviceID = devices['devices'][0]['id']
 
 #Current Track information
 track = spotifyObject.current_user_playing_track()
-print(json.dumps(track, sort_keys=True, indent=4))
-print()
-#need to play something if error: TypeError: 'NoneType' object is not subscriptable
 artist = track['item']['artists'][0]['name']
 track = track['item']['name']
 
-if artist != "":
-    print("Currently playing " + artist + " - " + track)
-
-
-
+>>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
 displayName = user['display_name']
 followers = user['followers']['total']
 
 while True:
     print()
-    print(">>> Welcome to Spotipy! " + displayName + "!")
-    print(">>> You have " + str(followers) + " followers")
+    print(">>> Welcome to Spotipy! <<<")
+    print(">> Logged in as: " + displayName + " <<")
+    if artist != "":
+        print("> Currently playing " + artist + " - " + track +" <")
+
     print()
-    print("0 - Search for an artist")
-    print("1 - Randomize a playlist's order")
-    print("2 - exit")
-    print()
+    print("1 - Play a song by an Artist")
+    print("2 - Randomize a playlist's order")
+    print("3 - Your Stats (:")
+    print("4 - exit\n")
+>>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
     choice = input("Your choice: ")
 
     #Search for the artist
-    if choice == "0":
+    if choice == "1":
         print()
-        searchQuery = input("ok, what's their name?: ")
+        searchQuery = input("Please enter the Artist's Name: ")
         print()
 
         #get search results
         searchResults = spotifyObject.search(searchQuery, 1, 0, "artist")
-        #print(json.dumps(searchResults, sort_keys=True, indent=4))
 
         #artist details
         artist = searchResults['artists']['items'][0]
@@ -111,6 +105,7 @@ while True:
 
         #See the album art
         while True:
+            print("======================================================================")
             songSelection = input("Enter a song number to see the album art and play the song(x to exit): ")
             if songSelection == "x":
                 break
@@ -121,14 +116,15 @@ while True:
 
 
     #Randomizer
-    z = 0
 
-    if choice == "1":
+    if choice == "2":
+>>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
         #api calls that we're gonna use:
         #current_user_playlists
         #goal: allow the user to choose a target playlist, populate the playlist's song URIs into an array
         #populate the array into a target playlist (the user is supposed to create a new one)
         #randomize the ordering of the songs
+<<<<<<< HEAD
 
         #Extract album data
         playlistResults = spotifyObject.user_playlists(username)
@@ -153,12 +149,30 @@ while True:
 
     #Exit program
     if choice == "2":
+=======
+>>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
         break
 
 
+    if choice == "3":
+        print("====================================================")
+        print(">> You have " + str(followers) + " followers")
+        print()
+        followed_Artists = spotifyObject.current_user_playlists(3)
+        print("Your top three playlists are: ")
+        playlist_Names = followed_Artists['items'][0]['name']
+        print("- Playlist 1: " + playlist_Names)
+        playlist_Names = followed_Artists['items'][1]['name']
+        print("- Playlist 2: " + playlist_Names)
+        playlist_Names = followed_Artists['items'][2]['name']
+        print("- Playlist 3: " + playlist_Names)
+        #print()
+        print("====================================================")
 
 
 
-
+    #Exit program
+    if choice == "4":
+        break
 #PRINTS JSON IN READABLE FORMAT
 # print(json.dumps(VARIABLE, sort_keys=True, indent=4))
