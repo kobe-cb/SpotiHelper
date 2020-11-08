@@ -2,6 +2,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import sys
+import random
 import json
 import webbrowser
 import spotipy.util as util
@@ -124,9 +125,12 @@ while True:
         #Extract album data
         playlistResults = spotifyObject.user_playlists(username)
 
+        z = 0
+
+        playlistID = []
         for playlist in playlistResults['items']:
             print(str(z) + ": " + playlist['name'])
-            playlistID.append(item['uri'])
+            playlistID.append(playlist['uri'])
             z += 1
 
 
@@ -140,15 +144,12 @@ while True:
         playlistSelection.append(playlistID[int(playlistChoice)])
         playlistCopySelection.append(playlistID[int(playlistTarget)])
 
-        for items in spotifyObject.pl playlist_items(playlistSelection, fields: 'uri'):
-
-
-
-            trackSelectionList = []
-            trackSelectionList.append(trackURIS[int(songSelection)])
-            spotifyObject.start_playback(deviceID, None, trackSelectionList)
-            webbrowser.open(trackArt[int(songSelection)])
-
+        for items in spotifyObject.playlist_items(playlistSelection[0], 'ES'):
+            songList = []
+            songList.append(items['uri'])
+            random.shuffle(songList)
+            for i in songList:
+                spotifyObject.playlist_add_items(playlistCopySelection, songList)
 
     #Exit program
     if choice == "2":
