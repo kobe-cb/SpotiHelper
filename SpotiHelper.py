@@ -8,8 +8,8 @@ import spotipy.util as util
 from json.decoder import JSONDecodeError
 
 #SET
-#CLIENT_ID = 'd18487cead41464ea241e1b41cdecfc4'
-#CLIENT_SECRET = '3621e998a4da4035b33bb98f0a058d8a'
+#CLIENT_ID = ''
+#CLIENT_SECRET = ''
 #redirect_uri = 'http://google.com/'
 
 #Get the username from terminal(passed in thru terminal)
@@ -56,11 +56,10 @@ followers = user['followers']['total']
 while True:
     print()
     print(">>> Welcome to Spotipy! " + displayName + "!")
-    print(">>> You have " + str(followers) + " followers")
-    print()
+    print(">>> You have " + str(followers) + " followers\n")
     print("0 - Search for an artist")
-    print("1 - exit")
-    print()
+    print("1 - Randomize a playlist's order")
+    print("2 - exit\n")
     choice = input("Your choice: ")
 
     #Search for the artist
@@ -119,8 +118,17 @@ while True:
             webbrowser.open(trackArt[int(songSelection)])
 
 
-    #Exit program
+    #Randomizer
     if choice == "1":
+        #api calls that we're gonna use:
+        #current_user_playlists
+        #goal: allow the user to choose a target playlist, populate the playlist's song URIs into an array
+        #populate the array into a target playlist (the user is supposed to create a new one)
+        #randomize the ordering of the songs
+
+
+    #Exit program
+    if choice == "2":
         break
 
 
