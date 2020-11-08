@@ -131,9 +131,17 @@ while True:
 
 
         #Getting the user's choice for the playlist they want to copy and shuffle
-        playlistChoice = input("Enter the number of the playlist that would you like to copy and shuffle? ")
-        if playlistChoice == 'x':
+        playlistChoice = input("Enter the number of the playlist that you would like to copy and shuffle: ")
+        playlistTarget = input("Enter the number of the playlist that you would like to copy the songs to: ")
+        if playlistChoice == 'x' or playlistTarget == 'x':
             break
+        playlistSelection = []
+        playlistCopySelection = []
+        playlistSelection.append(playlistID[int(playlistChoice)])
+        playlistCopySelection.append(playlistID[int(playlistTarget)])
+
+        for items in spotifyObject.pl playlist_items(playlistSelection, fields: 'uri'):
+
 
 
             trackSelectionList = []
