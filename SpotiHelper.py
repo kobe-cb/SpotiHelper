@@ -40,7 +40,6 @@ track = spotifyObject.current_user_playing_track()
 artist = track['item']['artists'][0]['name']
 track = track['item']['name']
 
->>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
 displayName = user['display_name']
 followers = user['followers']['total']
 
@@ -56,7 +55,6 @@ while True:
     print("2 - Randomize a playlist's order")
     print("3 - Your Stats (:")
     print("4 - exit\n")
->>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
     choice = input("Your choice: ")
 
     #Search for the artist
@@ -116,15 +114,12 @@ while True:
 
 
     #Randomizer
-
     if choice == "2":
->>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
         #api calls that we're gonna use:
         #current_user_playlists
         #goal: allow the user to choose a target playlist, populate the playlist's song URIs into an array
         #populate the array into a target playlist (the user is supposed to create a new one)
         #randomize the ordering of the songs
-<<<<<<< HEAD
 
         #Extract album data
         playlistResults = spotifyObject.user_playlists(username)
@@ -149,8 +144,6 @@ while True:
 
     #Exit program
     if choice == "2":
-=======
->>>>>>> 271c071f3f5f215fbe6d5e98dd4e97c5ebadea37
         break
 
 
