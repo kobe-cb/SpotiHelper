@@ -15,7 +15,9 @@ from json.decoder import JSONDecodeError
 
 #Get the username from terminal(passed in thru terminal)
 username = sys.argv[1]
-scope ='user-read-private user-read-playback-state user-modify-playback-state'
+#scope ='user-read-private user-read-playback-state user-modify-playback-state'
+#scope ='user-read-private user-read-playback-state playlist-modify-public playlist-modify-private user-modify-playback-state'
+scope = 'user-read-recently-played user-read-playback-state user-top-read playlist-modify-public user-modify-playback-state playlist-modify-private user-read-currently-playing playlist-read-private '
 
 #User ID: qtixhb2op20rjv4fpm8k2a540
 
@@ -143,14 +145,55 @@ while True:
         playlistCopySelection = []
         playlistSelection.append(playlistID[int(playlistChoice)])
         playlistCopySelection.append(playlistID[int(playlistTarget)])
+        #grab all playlists in object
+        #playListID contains all URI
+        #append PLAYLISTOBJECT at playListID[user int] to playListselection
+        #append same for copy
 
-        for items in spotifyObject.playlist_items(playlistSelection[0], 'ES'):
-            songList = []
-            songList.append(items['uri'])
-            random.shuffle(songList)
-            for i in songList:
-                spotifyObject.playlist_add_items(playlistCopySelection, songList)
+        #for ""items""  inside PLAYLISTOBJECT, append item's uri
+        #shuffle URI's
+        #add items in copy with songList
 
+#        results = spotifyObject.user_playlist_tracks(username, playlistSelection[0])
+#        tracks = results['items']
+#        while results['next']:
+#            results = spotifyObject.next(results)
+#            tracks.extend(results['track'])      
+#        spotifyObject.user_playlist_add_tracks(username, tracks, playlistCopySelection[0])
+
+
+#        test = spotifyObject.user_playlist_reorder_tracks(username, playlistCopySelection[0], 0, 4, 2)
+        #items = ["2RlgNHKcydI9sayD2Df2xp"]
+        #doesnt work because no permission to add to this playlist as anon
+        #spotifyObject.playlist_add_items(playlistCopySelection[0], items, None)
+        #spotifyObject.user_playlist_add_tracks(username, playlistCopySelection[0], items)
+
+        
+
+ #       results = spotifyObject.user_playlist_tracks(username, playlistSelection[0])
+ #       tracks = results['items']
+        results = spotifyObject.user_playlist_tracks(username, playlistSelection[0])
+        tracks = results['items']
+        while results['next']:
+            results = spotifyObject.next(results)
+            tracks.extend(results['items'])    
+        uris = []
+        while results['next']:
+            results = spotifyObject.next(results)
+            tracks.append(results['items'])
+        for item in tracks:
+            is_local = item["is_local"]
+            if is_local == True:
+                continue
+            else:
+                track_uri = item["track"]["uri"]
+                uris.append(track_uri)
+        new_uris = uris
+        random.shuffle(new_uris)
+        new_uris_1 = new_uris[:len(new_uris)//2]
+        new_uris_2 = new_uris[len(new_uris)//2:]
+        spotifyObject.user_playlist_add_tracks(username, playlistCopySelection[0], new_uris_1)
+        spotifyObject.user_playlist_add_tracks(username, playlistCopySelection[0], new_uris_2)
     #Exit program
     if choice == "2":
         break
